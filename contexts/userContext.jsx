@@ -1,12 +1,12 @@
-import { createContext, useContext, useState } from "react";
+import { createContext,  useState } from "react";
 import { account } from "../lib/appwrite";
 import { ID } from "react-native-appwrite";
 
 
-export const userContext = createContext = createContext()
+export const UserContext = createContext()
 
 export function UserProvider({children}){
-    const [user,setUser] = useState('')
+    const [user,setUser] = useState(null)
 
     async function login(email, password){
         try{

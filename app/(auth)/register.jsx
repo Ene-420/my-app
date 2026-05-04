@@ -7,6 +7,7 @@ import Spacer from '../../components/Spacer'
 import { useState } from 'react'
 import ThemedTextInput from '../../components/ThemedTextInput'
 import { useUser } from '../../hooks/useUser'
+import ThemedButton from '../../components/ThemedButton'
 
 
  
@@ -14,7 +15,15 @@ const register = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const  {user, register} = useUser()
+    const  { register} = useUser()
+
+    async function handleSubmit() {
+        try {
+            await register(email, password)
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -26,19 +35,25 @@ const register = () => {
             </ThemedText>
 
             <ThemedTextInput 
-                placeholder="Email" 
                 style={{width: '80%', marginBottom: 20}}
+                placeholder="Email" 
                 keyboardType='email-address'
                 onChangeText={setEmail}
                 value={email}
             />
             <ThemedTextInput 
-                placeholder="Password" 
                 style={{width: '80%', marginBottom: 20}}
+                placeholder="Password" 
                 onChangeText={setPassword}
                 value={password}
                 secureTextEntry
             />
+
+            <ThemedButton onPress={handleSubmit()} >
+                <ThemedText>
+                    Register
+                </ThemedText>
+            </ThemedButton>
 
             <Spacer height={100}/>
             <Link href='/login'>
@@ -57,7 +72,8 @@ export default register
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        justifyContent: 'center'    
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     title:{
         textAlign: 'center',
