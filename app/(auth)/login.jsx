@@ -8,20 +8,25 @@ import ThemedButton from '../../components/ThemedButton'
 import ThemedTextInput from '../../components/ThemedTextInput'
 import { useState } from 'react'
 import { useUser } from '../../hooks/useUser'
+import { NodeBuilderFlags } from 'typescript'
 
 
  
 const login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState(null)
 
-    const {login} = useUser()
+    const { login } = useUser()
 
      async function handleSubmit() {
+        setError(null)
+
         try {
             await login(email, password)
         } catch (error) {
-            console.log(error.message)
+            setError(error.message)
+    
         }
     }
 
@@ -49,16 +54,19 @@ const login = () => {
                 secureTextEntry
             />
 
-            <ThemedButton onPress={() => {handleSubmit()}}>
-                <Text style={{color: '#f2f2f2'}}> Login</Text>
+            <ThemedButton onPress={() => {handleSubmit()} } style={styles.link}>
+                <ThemedText style={{fontSize: 23}}> Login</ThemedText>
             </ThemedButton>
 
             <Spacer height={100}/>
             <Link href='/register'>
-                <ThemedText style={{textAlign: 'center'}}>
+                <ThemedText>
                     Register Instead
                 </ThemedText>
             </Link>
+
+            <Spacer/>
+            {error && <Text style={styles.error}>{error}</Text>}
 
         </ThemedView>
 
@@ -87,5 +95,27 @@ const styles = StyleSheet.create({
     },
     pressed:{
         opacity: 0.8
+    },
+
+    link:{
+        marginVertical: 30,
+        borderWidth: 0.5,
+        paddingLeft: 30,
+        paddingRight: 30,
+        paddingTop: 15,
+        paddingBottom: 15,
+        backgroundColor: '#0c4ed198',
+        borderRadius: 15
+    },
+
+    error:{
+        color: Colors.warning,
+        padding: 10,
+        backgroundColor: '#f5c1c8',
+        borderColor: Colors.warning,
+        borderWidth: 1,
+        borderRadius: 6,
+        marginHorizontal: 10
     }
+
 })

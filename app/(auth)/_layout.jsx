@@ -2,6 +2,7 @@ import { Stack } from "expo-router";
 import { StatusBar, useColorScheme } from "react-native";
 import { Colors } from "../../constants/color";
 import { useUser } from "../../hooks/useUser";
+import GuestOnly from "../../components/auth/GuestOnly";
 
 
 export default function AuthLayout(){
@@ -11,7 +12,7 @@ export default function AuthLayout(){
     const { user } = useUser()
 
     return(
-        <>
+        <GuestOnly>
             <StatusBar style='auto' />
             <Stack screenOptions={{
                 headerShown: false,
@@ -24,7 +25,7 @@ export default function AuthLayout(){
 
                 <Stack.Screen   name='index' options={{title:'Home'}}/> */}
 
-        </>
+        </GuestOnly>
   
     )
 }

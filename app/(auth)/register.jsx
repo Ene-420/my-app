@@ -14,14 +14,17 @@ import ThemedButton from '../../components/ThemedButton'
 const register = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState(null)
 
     const  { register} = useUser()
 
     async function handleSubmit() {
+        setError(null)
+
         try {
             await register(email, password)
         } catch (error) {
-            console.log(error.message)
+            setError(error.message)
         }
     }
 
@@ -49,15 +52,18 @@ const register = () => {
                 secureTextEntry
             />
 
-            <ThemedButton onPress={handleSubmit()} >
-                <ThemedText>
+            <ThemedButton onPress={handleSubmit()} style={styles.link} >
+                <ThemedText style={{fontSize: 23}}>
                     Register
                 </ThemedText>
             </ThemedButton>
 
+            <Spacer/>
+            {error && <Text style={styles.error}>{error}</Text>}
+
             <Spacer height={100}/>
             <Link href='/login'>
-                <ThemedText style={{textAlign: 'center'}}>
+                <ThemedText >
                     Login Instead
                 </ThemedText>
             </Link>
@@ -79,5 +85,26 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         marginBottom: 30 
+    },
+
+    link:{
+        marginVertical: 30,
+        borderWidth: 0.5,
+        paddingLeft: 30,
+        paddingRight: 30,
+        paddingTop: 15,
+        paddingBottom: 15,
+        backgroundColor: '#0c4ed198',
+        borderRadius: 15
+
+    },
+    error:{
+        color: Colors.warning,
+        padding: 10,
+        backgroundColor: '#f5c1c8',
+        borderColor: Colors.warning,
+        borderWidth: 1,
+        borderRadius: 6,
+        marginHorizontal: 10
     }
 })
